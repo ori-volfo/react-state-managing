@@ -2,14 +2,16 @@ import React, {useState, useEffect} from "react";
 import "./App.css";
 import Footer from "./Footer";
 import Header from "./Header";
-import { getProducts } from "./services/productService"
+import { getProducts } from "./services/productService";
 
 
 export default function App() {
   const [size, setSize] = useState('');
   const [ products, setProducts] = useState([]);
+  const [ error, setError ] = useState(null)
+
   useEffect(()=>{
-    getProducts('shoes').then(setProducts);
+    getProducts('shoes').then(setProducts).catch(setError);
   }, []);
   function renderProduct(p) {
     return (
@@ -24,6 +26,8 @@ export default function App() {
   }
 
   const filteredProducts = size ? products.filter( p => p.skus.find( s => s.size === parseInt( size ) ) ) : products ;
+
+  if (error) throw error;
 
   return (
     <>
