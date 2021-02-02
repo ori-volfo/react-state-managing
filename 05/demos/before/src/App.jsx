@@ -22,6 +22,9 @@ export default function App() {
   }
   function updateQuantity(sku, quantity) {
     setCart(items => {
+      if ( quantity === 0 ){
+        return items.filter( i => i.sku !== sku );
+      }
       return items.map( i => i.sku === sku ? { ...i, quantity: quantity } : i);
     });
   }
