@@ -44,7 +44,12 @@ export default function Cart({ cart, updateQuantity }) {
 
   return (
     <section id="cart">
-      <h1>Cart</h1>
+      <h1>
+        {(cart.length === 0)?
+        'Cart is empty' :
+        `There are ${cart.reduce((a,b) => {return a + b.quantity}, 0)} items in cart`
+        }
+      </h1>
       <ul>{cart.map(renderItem)}</ul>
     </section>
   );
