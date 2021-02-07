@@ -19,6 +19,9 @@ export default function Checkout({ cart, emptyCart }) {
   const [status, setStatus] = useState(STATUS.IDLE);
   const [saveError, setSaveRrror] = useState(null);
 
+  const errors = getErrors(address);
+  const isValid = Object.keys(errors).length === 0;
+
   function handleChange(e) {
     e.persist();
     setAddress(currAddress => {
@@ -36,14 +39,27 @@ export default function Checkout({ cart, emptyCart }) {
   async function handleSubmit(event) {
     event.preventDefault();
     setStatus(STATUS.SUBMITTING);
-    try {
-      await saveShippingAddress(address);
-      emptyCart();
-      setStatus(STATUS.COMPLETED);
+    if(isValid){
+      try {
+        await saveShippingAddress(address);
+        emptyCart();
+        setStatus(STATUS.COMPLETED);
+      }
+      catch (e) {
+        setSaveRrror(e);
+      }
+    } else {
+      setStatus(STATUS.SUBMITTED);
     }
-    catch (e) {
-      setSaveRrror(e);
-    }
+
+  }
+
+  function getErrors(address) {
+      const result = {};
+      if(!address.city) result.city = "City is required";
+      if(!address.country) result.country = "Country is required";
+      return result;
+
   }
 
   if(saveError) throw saveError;
@@ -53,6 +69,16 @@ export default function Checkout({ cart, emptyCart }) {
   return (
     <>
       <h1>Shipping Info</h1>
+      {!isValid && status === STATUS.SUBMITTED && (
+          <div role="alert">
+            <p>Please fix the following errors:</p>
+            <ul>
+              {Object.keys(errors).map(key=>{
+                return <li key={key}>{errors[key]}</li>
+              })}
+            </ul>
+          </div>
+      )}
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="city">City</label>
