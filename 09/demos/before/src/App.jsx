@@ -37,11 +37,11 @@ export default function App() {
             />
             <Route
               path="/cart"
-              element={<Cart cart={cart} dispatch={dispatch} />}
+              element={<Cart/>}
             />
             <Route
               path="/checkout"
-              element={<Checkout cart={cart} dispatch={dispatch} />}
+              element={<Checkout/>}
             />
           </Routes>
         </main>
