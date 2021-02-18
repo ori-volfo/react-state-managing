@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Products from "./Products";
 import { Routes, Route } from "react-router-dom";
-import Detail from "./Detail";
+import DetailWrapper from "./Detail.class";
 import Cart from "./Cart";
 import Checkout from "./Checkout.class";
 import { useCart } from "./cartContext";
@@ -20,7 +20,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<h1>Welcome to Carved Rock Fitness</h1>} />
             <Route path="/:category" element={<Products />} />
-            <Route path="/:category/:id" element={<Detail />} />
+            <Route path="/:category/:id" element={<DetailWrapper />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout dispatch={dispatch}/>} />
           </Routes>
