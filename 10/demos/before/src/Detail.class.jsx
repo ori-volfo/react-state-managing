@@ -20,7 +20,8 @@ class Detail extends React.Component{
         const { sku } = this.state;
 
         return (
-            <Fetch url={`products/${id}`} render={ (product, loading, error) => {
+            <Fetch url={`products/${id}`} >
+                { (product, loading, error) => {
 
                 if (loading) return <Spinner />;
                 if (!product) return <PageNotFound />;
@@ -56,8 +57,8 @@ class Detail extends React.Component{
                         <img src={`/images/${product.image}`} alt={product.category} />
                     </div>
                 )
-            }
-            }/>
-        )
+            }}
+        </Fetch>
+    )
     }
 }
